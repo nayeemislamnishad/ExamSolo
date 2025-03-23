@@ -1,84 +1,110 @@
-// ডিফল্ট ভ্যালু (ইউজার পরবর্তীতে চেঞ্জ করবে)
-let totalQuestions = 100;
-let startQuestionNumber = 1;
-let timeLeft = 3600; // ৬০ মিনিট (সেকেন্ডে)
+let totalQuestions, columns, timeLeft, startQuestionNumber;
+let userAnswers, answered, startTime;
+let timer;
 
-function startExam() {
-    // ইউজারের ইনপুট নেওয়া
-    timeLeft = parseInt(document.getElementById("examTime").value) * 60; // সেকেন্ডে রূপান্তর
+document.getElementById("startExamButton").addEventListener("click", function () {
     totalQuestions = parseInt(document.getElementById("totalQuestions").value);
-    startQuestionNumber = parseInt(document.getElementById("startQuestion").value);
+    columns = parseInt(document.getElementById("columns").value);
+    timeLeft = parseInt(document.getElementById("timeLeft").value);
+    startQuestionNumber = parseInt(document.getElementById("startQuestionNumber").value);
 
-    // এক্সাম শুরু করো
-    initializeExam();
-}
-
-const questionsPerColumn = Math.ceil(totalQuestions / columns);
-const container = document.getElementById("answer-sheet");
-const tableContainer = document.createElement("div");
-tableContainer.classList.add("table-container");
-
-let userAnswers = new Array(totalQuestions).fill(null);
-let answered = new Set();
-let startTime = new Date();
-
-window.onbeforeunload = function() {
-    return "আপনি কি নিশ্চিত যে আপনি পেজ রিফ্রেশ করতে চান? আপনার এক্সামের তথ্য হারিয়ে যেতে পারে।";
-};
-
-const fragment = document.createDocumentFragment(); 
-
-for (let col = 0; col < columns; col++) {
-    const table = document.createElement("table");
-    table.classList.add("table");
-    
-    let tableHTML = `<tr><th>Q No.</th><th>Answer</th></tr>`;
-    
-    for (let i = 0; i < questionsPerColumn; i++) {
-        let qNum = i + startQuestionNumber + col * questionsPerColumn;
-        
-        
-        tableHTML += `
-            <tr>
-                <td style="color:red;font-weight:550;">${qNum}</td>
-                <td>
-                    <span class="circle" data-q="${qNum}" data-ans="a">A</span>
-                    <span class="circle" data-q="${qNum}" data-ans="b">B</span>
-                    <span class="circle" data-q="${qNum}" data-ans="c">C</span>
-                    <span class="circle" data-q="${qNum}" data-ans="d">D</span>
-                </td>
-            </tr>
-        `;
+    if (isNaN(totalQuestions) || isNaN(columns) || isNaN(timeLeft) || isNaN(startQuestionNumber)) {
+        alert("Please fill all fields with valid numbers.");
+        return;
     }
 
-    table.innerHTML = tableHTML;
-    fragment.appendChild(table);
-}
+    document.getElementById("config-section").style.display = "none";
+    document.getElementById("timer").style.display = "block";
+    document.getElementById("toggleButton").style.display = "block";
+    document.getElementById("imageUpload").style.display = "block";
+    document.getElementById("lockButton").style.display = "block";
+    document.getElementById("submit-btn").style.display = "block";
 
-tableContainer.appendChild(fragment);
-container.appendChild(tableContainer);
-
-document.querySelectorAll(".circle").forEach(circle => {
-    circle.addEventListener("click", function () {
-        const qNum = this.getAttribute("data-q"); // প্রশ্ন নম্বর বের করা
-        const qNumIndex = parseInt(qNum) - startQuestionNumber; // 76 থেকে শুরু হওয়া প্রশ্নের জন্য সঠিক ইনডেক্স পাওয়া
-
-        if (qNumIndex < 0 || qNumIndex >= totalQuestions) return; // ভুল ইনডেক্স হলে কিছু করো না
-
-        if (answered.has(qNumIndex)) return; // যদি আগেই উত্তর দেওয়া থাকে, তাহলে কিছু করো না
-
-        const ans = this.getAttribute("data-ans");
-        userAnswers[qNumIndex] = ans; // ইউজারের উত্তর সংরক্ষণ করা
-        answered.add(qNumIndex); // প্রশ্নটাকে "answered" হিসেবে মার্ক করা
-
-        // UI তে সিলেক্ট করা উত্তর হাইলাইট করা
-        this.parentElement.querySelectorAll(".circle").forEach(c => c.classList.remove("selected"));
-        this.classList.add("selected");
-        this.style.background = "black";
-        this.style.color = "white";
-    });
+    initializeExam();
 });
 
+function initializeExam() {
+    const questionsPerColumn = totalQuestions / columns;
+    const container = document.getElementById("answer-sheet");
+    const tableContainer = document.createElement("div");
+    tableContainer.classList.add("table-container");
+
+    userAnswers = new Array(totalQuestions).fill(null);
+    answered = new Set();
+    startTime = new Date();
+
+    window.onbeforeunload = function () {
+        return "আপনি কি নিশ্চিত যে আপনি পেজ রিফ্রেশ করতে চান? আপনার এক্সামের তথ্য হারিয়ে যেতে পারে।";
+    };
+
+    const fragment = document.createDocumentFragment();
+
+    for (let col = 0; col < columns; col++) {
+        const table = document.createElement("table");
+        table.classList.add("table");
+
+        let tableHTML = `<tr><th>Q No.</th><th>Answer</th></tr>`;
+
+        for (let i = 0; i < questionsPerColumn; i++) {
+            let qNum = i + startQuestionNumber + col * questionsPerColumn;
+
+            tableHTML += `
+                <tr>
+                    <td style="color:red;font-weight:550;">${qNum}</td>
+                    <td>
+                        <span class="circle" data-q="${qNum}" data-ans="a">A</span>
+                        <span class="circle" data-q="${qNum}" data-ans="b">B</span>
+                        <span class="circle" data-q="${qNum}" data-ans="c">C</span>
+                        <span class="circle" data-q="${qNum}" data-ans="d">D</span>
+                    </td>
+                </tr>
+            `;
+        }
+
+        table.innerHTML = tableHTML;
+        fragment.appendChild(table);
+    }
+
+    tableContainer.appendChild(fragment);
+    container.appendChild(tableContainer);
+
+    document.querySelectorAll(".circle").forEach(circle => {
+        circle.addEventListener("click", function () {
+            const qNum = this.getAttribute("data-q");
+            const qNumIndex = parseInt(qNum) - startQuestionNumber;
+
+            if (qNumIndex < 0 || qNumIndex >= totalQuestions) return;
+
+            if (answered.has(qNumIndex)) return;
+
+            const ans = this.getAttribute("data-ans");
+            userAnswers[qNumIndex] = ans;
+            answered.add(qNumIndex);
+
+            this.parentElement.querySelectorAll(".circle").forEach(c => c.classList.remove("selected"));
+            this.classList.add("selected");
+            this.style.background = "black";
+            this.style.color = "white";
+        });
+    });
+
+    const timerElement = document.getElementById("time");
+
+    function updateTimer() {
+        let minutes = Math.floor(timeLeft / 60);
+        let seconds = timeLeft % 60;
+        timerElement.innerText = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+        timeLeft--;
+
+        if (timeLeft < 0) {
+            window.onbeforeunload = null;
+            document.getElementById("submit-btn").click();
+            clearInterval(timer);
+        }
+    }
+
+    timer = setInterval(updateTimer, 1000);
+}
 
 document.getElementById("submit-btn").addEventListener("click", function (event) {
     if (timeLeft > 0) {
@@ -90,32 +116,20 @@ document.getElementById("submit-btn").addEventListener("click", function (event)
     }
 
     let endTime = new Date();
-    // ✅ **Timer বন্ধ করা**
-    clearInterval(timer); // Timer বন্ধ করবে
-    document.getElementById("timer").innerText = "Exam Finished!"; // Timer Text চেঞ্জ
+    clearInterval(timer);
+    document.getElementById("timer").innerText = "Exam Finished!";
 
-    // **OMR Lock করা (User আর Answer Select করতে পারবে না)**
     document.querySelectorAll(".circle").forEach(circle => {
-        circle.style.pointerEvents = "none";  // Lock OMR
+        circle.style.pointerEvents = "none";
     });
 
-    // **Answer Input Box & Initialize Button দেখানো**
     document.getElementById("answer-section").style.display = "block";
-
-    // **Submit Button Hide করা**
     document.getElementById("submit-btn").style.display = "none";
 });
 
+document.getElementById("initialize-btn").addEventListener("click", function () {
+    let userCorrectAnswers = document.getElementById("userAnswers").value.trim();
 
-
-
-
-
-
-    
-    document.getElementById("initialize-btn").addEventListener("click", function () {
-    let userCorrectAnswers = document.getElementById("userAnswers").value.trim(); // User দেওয়া সঠিক উত্তর
-    
     if (userCorrectAnswers.length !== totalQuestions) {
         alert("আপনার দেওয়া উত্তর অবশ্যই " + totalQuestions + " অক্ষরের হতে হবে!");
         return;
@@ -124,10 +138,10 @@ document.getElementById("submit-btn").addEventListener("click", function (event)
         alert("শুধুমাত্র a, b, c, d ব্যবহার করতে পারবেন! অন্য কোনো অক্ষর দেওয়া যাবে না।");
         return;
     }
-    // ✅ Check 3: **Final Confirmation**
+
     let confirmInitialize = confirm("আপনি কি নিশ্চিত যে আপনি মার্কিং শুরু করতে চান?");
     if (!confirmInitialize) {
-        return; // ইউজার 'Cancel' চাপলে কিছুই হবে না
+        return;
     }
 
     let score = 0, wrong = 0;
@@ -136,7 +150,7 @@ document.getElementById("submit-btn").addEventListener("click", function (event)
     for (let i = 0; i < totalQuestions; i++) {
         let qNum = i + startQuestionNumber;
         let selectedCircle = document.querySelector(`.circle[data-q="${qNum}"].selected`);
-        let correctAns = userCorrectAnswers[i]; // User দেওয়া সঠিক উত্তর
+        let correctAns = userCorrectAnswers[i];
         let correctCircle = document.querySelector(`.circle[data-q="${qNum}"][data-ans="${correctAns}"]`);
 
         if (selectedCircle) {
@@ -176,75 +190,41 @@ document.getElementById("submit-btn").addEventListener("click", function (event)
         </div>
     `;
 
-    // **Initialize Button Disabled করা**
     document.getElementById("initialize-btn").disabled = true;
     document.getElementById("initialize-btn").style.background = "gray";
-    document.getElementById("answer-section").style.display="none";
-    document.getElementById("nitialize-btn").style.display="none";
+    document.getElementById("answer-section").style.display = "none";
+    document.getElementById("initialize-btn").style.display = "none";
 });
-
-
-    
-
-
-    
-
-
-// let timeLeft = 1200;
-const timerElement = document.getElementById("time");
-
-function updateTimer() {
-    let minutes = Math.floor(timeLeft / 60);
-    let seconds = timeLeft % 60;
-    timerElement.innerText = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
-    timeLeft--;
-
-    if (timeLeft < 0) {
-    window.onbeforeunload = null;  // Disable refresh warning during auto-submit
-    document.getElementById("submit-btn").click();
-        clearInterval(timer);
-    }
-}
-
-const timer = setInterval(updateTimer, 1000);
-
-
 
 const imageUpload = document.getElementById("imageUpload");
 const imagePreview = document.getElementById("imagePreview");
 const lockButton = document.getElementById("lockButton");
 
-let isLocked = false; // Lock button চাপা হয়েছে কিনা চেক করতে
+let isLocked = false;
 
-// User যখন ছবি আপলোড করবে
 imageUpload.addEventListener("change", function () {
-    if (isLocked) return; // যদি Lock করা থাকে, কিছুই হবে না
+    if (isLocked) return;
 
-    imagePreview.innerHTML = ""; // আগের সব ছবি মুছে দাও
+    imagePreview.innerHTML = "";
 
-    const files = imageUpload.files; // ইউজার যে ফাইল আপলোড করেছে তা নেয়া
+    const files = imageUpload.files;
     for (let i = 0; i < files.length; i++) {
         const file = files[i];
         const reader = new FileReader();
 
         reader.onload = function (e) {
-    const img = document.createElement("img");
-    img.src = e.target.result;
-    
-    // Image size বড় করে দেওয়া (তোমার আগের design-এর মতো)
-    img.style.width = "200%";
-    img.style.height = "200%";
-    
-    img.style.margin = "5px";
-    imagePreview.appendChild(img);
-};
-
+            const img = document.createElement("img");
+            img.src = e.target.result;
+            img.style.width = "200%";
+            img.style.height = "200%";
+            img.style.margin = "5px";
+            imagePreview.appendChild(img);
+        };
 
         reader.readAsDataURL(file);
     }
 });
 
-// Lock button event
 lockButton.addEventListener("click", function () {
     if (imagePreview.children.length === 0) {
         alert("Please upload at least one image before locking!");
@@ -252,14 +232,13 @@ lockButton.addEventListener("click", function () {
     }
 
     isLocked = true;
-    imageUpload.style.display = "none"; // Input box লুকিয়ে দাও
-    lockButton.style.background = "gray"; // Lock button disabled দেখানো
-    lockButton.innerText = "Images Locked"; // বাটনের টেক্সট পরিবর্তন করা
+    imageUpload.style.display = "none";
+    lockButton.style.background = "gray";
+    lockButton.innerText = "Images Locked";
     lockButton.disabled = true;
     lockButton.style.display = "none";
 });
 
-
 document.getElementById("userAnswers").addEventListener("input", function () {
-    this.value = this.value.toLowerCase(); // সব অক্ষর ছোট করে ফেলা
+    this.value = this.value.toLowerCase();
 });
