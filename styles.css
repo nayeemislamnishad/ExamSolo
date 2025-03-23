@@ -261,3 +261,50 @@ body {
     text-align: center;
     outline: none;
 }
+
+/* টেবিল এবং প্রশ্ন নম্বরের স্টাইল */
+.table {
+    width: 100%; /* টেবিলের প্রস্থ 100% */
+    border-collapse: collapse; /* সেলগুলির মধ্যে দূরত্ব কমিয়ে দেওয়া */
+    margin: 20px 0; /* টেবিলের চারপাশে মার্জিন */
+}
+
+.table th, .table td {
+    padding: 20px; /* সেলের ভিতরের প্যাডিং বড় করা */
+    text-align: center; /* টেক্সট সেন্টারে align করা */
+    border: 1px solid #ccc; /* সেলের বর্ডার */
+    font-size: 24px; /* ফন্ট সাইজ বড় করা */
+}
+
+.table th {
+    background-color: #f4f4f4; /* হেডারের ব্যাকগ্রাউন্ড কালার */
+    font-weight: bold; /* হেডারের ফন্ট বোল্ড করা */
+}
+
+/* প্রশ্ন নম্বরের স্টাইল */
+.table td:first-child {
+    font-weight: 550; /* প্রশ্ন নম্বরের ফন্ট ওয়েট */
+    color: red; /* প্রশ্ন নম্বরের কালার */
+    width: 20%; /* প্রশ্ন নম্বরের কলামের প্রস্থ */
+}
+
+/* বৃত্তের স্টাইল (A, B, C, D অপশন) */
+.circle {
+    display: inline-block; /* বৃত্তগুলিকে ইনলাইন ব্লক করা */
+    width: 60px; /* বৃত্তের প্রস্থ বড় করা */
+    height: 60px; /* বৃত্তের উচ্চতা বড় করা */
+    line-height: 60px; /* টেক্সটকে ভার্টিক্যালি সেন্টারে আনতে */
+    border: 2px solid #000; /* বৃত্তের বর্ডার */
+    border-radius: 50%; /* বৃত্ত আকৃতি দেওয়া */
+    margin: 10px; /* বৃত্তগুলির মধ্যে দূরত্ব বড় করা */
+    cursor: pointer; /* কার্সর পয়েন্টার */
+    font-size: 24px; /* ফন্ট সাইজ বড় করা */
+    text-align: center; /* টেক্সট সেন্টারে align করা */
+    transition: background-color 0.3s ease, color 0.3s ease; /* ট্রানজিশন এফেক্ট */
+}
+
+/* সিলেক্ট করা বৃত্তের স্টাইল */
+.circle.selected {
+    background-color: black; /* সিলেক্ট করা বৃত্তের ব্যাকগ্রাউন্ড কালার */
+    color: white; /* সিলেক্ট করা বৃত্তের টেক্সট কালার */
+}
