@@ -54,8 +54,8 @@ body {
     border: 1px solid red;
     border-radius: 50%;
     text-align: center;
-    line-height: 26px;
-    margin: 0 2px;
+    line-height: 21px;
+    margin: 0 1px;
     cursor: pointer;
     padding: 0px;
 }
