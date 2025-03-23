@@ -2,6 +2,7 @@ let totalQuestions, columns, timeLeft, startQuestionNumber;
 let userAnswers, answered, startTime;
 let timer;
 
+/*
 document.getElementById("startExamButton").addEventListener("click", function () {
     totalQuestions = parseInt(document.getElementById("totalQuestions").value);
     columns = parseInt(document.getElementById("columns").value);
@@ -9,6 +10,28 @@ document.getElementById("startExamButton").addEventListener("click", function ()
     startQuestionNumber = parseInt(document.getElementById("startQuestionNumber").value);
 
     if (isNaN(totalQuestions) || isNaN(columns) || isNaN(timeLeft) || isNaN(startQuestionNumber)) {
+        alert("Please fill all fields with valid numbers.");
+        return;
+    }
+
+    document.querySelector(".config-section").style.display = "none";
+    document.getElementById("timer").style.display = "block";
+    document.getElementById("toggleButton").style.display = "block";
+    document.getElementById("imageUpload").style.display = "block";
+    document.getElementById("lockButton").style.display = "block";
+    document.getElementById("submit-btn").style.display = "block";
+
+    initializeExam();
+});   */
+document.getElementById("startExamButton").addEventListener("click", function () {
+    totalQuestions = parseInt(document.getElementById("totalQuestions").value);
+    timeLeft = parseInt(document.getElementById("timeLeft").value);
+    startQuestionNumber = parseInt(document.getElementById("startQuestionNumber").value);
+
+    // কলাম সংখ্যা ১ এ ফিক্সড
+    columns = 1;
+
+    if (isNaN(totalQuestions) || isNaN(timeLeft) || isNaN(startQuestionNumber)) {
         alert("Please fill all fields with valid numbers.");
         return;
     }
