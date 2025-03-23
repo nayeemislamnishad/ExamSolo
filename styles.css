@@ -263,87 +263,72 @@ body {
 }
 
 
-
-/* General Reset */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Segoe UI', sans-serif;
-}
-
-/* Container Styling */
+/* General Container Styling */
 .container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background: linear-gradient(135deg, #6a11cb, #2575fc);
+    max-width: 500px;
+    margin: 0 auto;
     padding: 20px;
-}
-
-.config-section {
-    background: #ffffff;
-    padding: 2rem;
     border-radius: 12px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-    max-width: 400px;
-    width: 100%;
-    text-align: center;
+    background: linear-gradient(145deg, #ffffff, #f0f0f0);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
-.config-section h1 {
-    font-size: 1.8rem;
+/* Config Section Styling */
+.config-section {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Label Styling */
+.config-section label {
+    font-size: 14px;
+    font-weight: 600;
     color: #333;
-    margin-bottom: 1.5rem;
+    margin-bottom: 5px;
 }
 
-/* Input Group Styling */
-.input-group {
-    margin-bottom: 1.5rem;
-    text-align: left;
-}
-
-.input-group label {
-    display: block;
-    font-size: 1rem;
-    color: #555;
-    margin-bottom: 0.5rem;
-}
-
-.input-group input {
+/* Input Field Styling */
+.config-section input[type="number"] {
     width: 100%;
-    padding: 0.8rem;
-    border: 2px solid #ddd;
+    padding: 10px;
+    border: 1px solid #ddd;
     border-radius: 8px;
-    font-size: 1rem;
-    color: #333;
-    transition: border-color 0.3s ease;
+    font-size: 14px;
+    color: #555;
+    background-color: #f9f9f9;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.input-group input:focus {
-    border-color: #6a11cb;
+.config-section input[type="number"]:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
     outline: none;
 }
 
 /* Button Styling */
-.toggle-button {
-    width: 100%;
-    padding: 1rem;
-    background: #6a11cb;
-    color: #fff;
+#startExamButton {
+    padding: 12px 20px;
     border: none;
     border-radius: 8px;
-    font-size: 1rem;
+    background-color: #007bff;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
     cursor: pointer;
-    transition: background 0.3s ease, transform 0.2s ease;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.toggle-button:hover {
-    background: #2575fc;
+#startExamButton:hover {
+    background-color: #0056b3;
     transform: translateY(-2px);
 }
 
-.toggle-button:active {
+#startExamButton:active {
     transform: translateY(0);
+}
+
+/* Hidden Input Styling */
+input[type="hidden"] {
+    display: none;
 }
