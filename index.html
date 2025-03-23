@@ -12,20 +12,15 @@
             background-color: #f4f4f9;
             margin: 0;
             padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
         }
 
         .container {
+            max-width: 800px;
+            margin: 0 auto;
             background: white;
             padding: 20px;
             border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 500px;
-            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
         .config-section {
@@ -51,7 +46,7 @@
         .toggle-button {
             font-size: 16px;
             cursor: pointer;
-            margin: 10px 5px;
+            margin-bottom: 10px;
             background: #007bff;
             border: none;
             color: white;
@@ -66,56 +61,86 @@
 
         .button-group {
             display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
+            gap: 10px;
+            margin-bottom: 20px;
         }
 
-        #imageUpload {
-            display: none;
+        #timer {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
         }
 
-        #lockButton {
-            background: #28a745;
-        }
-
-        #lockButton:hover {
-            background: #218838;
-        }
-
-        #toggleButton {
-            background: #ffc107;
-        }
-
-        #toggleButton:hover {
-            background: #e0a800;
-        }
-
-        #startExamButton {
-            background: #17a2b8;
-        }
-
-        #startExamButton:hover {
-            background: #138496;
+        #result {
+            margin-bottom: 20px;
         }
 
         .image-container {
-            width: 85vw; /* Fixed width */
-            max-height: 0; /* Initially hidden */
-            overflow: auto; /* Enable scrolling */
+            width: 100%;
+            max-height: 0;
+            overflow: auto;
             border: 2px solid #333;
             background-color: #fff;
             transition: max-height 0.6s ease-in-out, visibility 0.3s ease-in-out;
             visibility: hidden;
+            border-radius: 5px;
+            margin-bottom: 20px;
         }
 
         .image-container.open {
-            max-height: 40vh; /* Expand to full height */
+            max-height: 40vh;
             visibility: visible;
         }
 
         img {
-            width: 200%; /* Large image */
-            height: 200%;
+            width: 100%;
+            height: auto;
+        }
+
+        #answer-sheet {
+            margin-bottom: 20px;
+        }
+
+        #submit-btn {
+            background: #28a745;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        #submit-btn:hover {
+            background: #218838;
+        }
+
+        #answer-section {
+            display: none;
+            margin-top: 20px;
+        }
+
+        .answer-box {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        .answer-box h3 {
+            margin-top: 0;
+            color: #333;
+        }
+
+        #userAnswers {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            margin-bottom: 10px;
         }
     </style>
     <script>
@@ -136,9 +161,12 @@
     <div class="container">
         <!-- কনফিগারেশন সেকশন -->
         <div class="config-section">
-            <h2 style="color: #333; margin-bottom: 20px;">Exam Configuration</h2>
+            <h2 style="color: #007bff; text-align: center;">Exam Configuration</h2>
             <label for="totalQuestions">Total Questions:</label>
             <input type="number" id="totalQuestions" placeholder="Enter total number of questions">
+
+            <!-- কলাম সংখ্যা ১ এ ফিক্সড -->
+            <input type="hidden" id="columns" value="1">
 
             <label for="startQuestionNumber">Starting Question Number:</label>
             <input type="number" id="startQuestionNumber" placeholder="Enter starting question number">
@@ -149,26 +177,28 @@
             <button id="startExamButton" class="toggle-button">Start Exam</button>
         </div>
 
-        <!-- বাটন গ্রুপ -->
-        <div class="button-group">
-            <button id="toggleButton" class="toggle-button" onclick="toggleBox()" style="display:none;">Show Question Paper</button>
-            <button id="lockButton" class="toggle-button" style="display:none;">Lock Images</button>
+        <!-- টাইমার এবং রেজাল্ট -->
+        <div id="timer" style="display:none;">Time Left: <span id="time">60:00</span></div>
+        <div id="result" style="margin-bottom:20px;"></div>
+
+        <!-- বাটন গ্রুপ (Choose Question Paper, Show Question Paper, Lock Images) -->
+        <div class="button-group" style="display:none;">
+            <button id="toggleButton" class="toggle-button" onclick="toggleBox()">Show Question Paper</button>
+            <input type="file" id="imageUpload" accept="image/*" multiple style="display:none;">
+            <button id="lockButton" class="toggle-button">Lock Images</button>
         </div>
 
-        <!-- Image Upload Section -->
-        <input type="file" id="imageUpload" accept="image/*" multiple style="display:none;">
-
-        <!-- Image Container -->
+        <!-- ইমেজ কন্টেইনার -->
         <div id="imageBox" class="image-container">
             <div id="imagePreview"></div>
         </div>
 
-        <!-- OMR Section -->
+        <!-- উত্তর শীট এবং সাবমিট বাটন -->
         <div id="answer-sheet"></div>
         <button id="submit-btn" style="display:none;">Submit</button>
 
-        <!-- Answer Input Box (OMR Correction এর জন্য) -->
-        <div id="answer-section" style="display:none; margin-top: 15px;">
+        <!-- সঠিক উত্তর ইনপুট বক্স -->
+        <div id="answer-section" style="display:none; margin-top: 20px;">
             <div class="answer-box">
                 <h3>Enter Correct Answers</h3>
                 <input type="text" id="userAnswers" placeholder="Enter like: accaddcabdc...">
