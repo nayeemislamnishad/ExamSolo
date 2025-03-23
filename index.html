@@ -6,90 +6,6 @@
     <title>Exam Sheet</title>
     <link rel="stylesheet" href="styles.css">
     <style>
-        /* সাধারণ স্টাইল */
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f4f4f9;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-
-        .container {
-            width: 90%;
-            max-width: 500px;
-            background: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        /* কনফিগারেশন সেকশন স্টাইল */
-        .config-section {
-            margin-bottom: 20px;
-        }
-
-        .config-section h2 {
-            text-align: center;
-            color: #333;
-            margin-bottom: 20px;
-            font-size: 24px;
-        }
-
-        .config-section label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-            color: #555;
-        }
-
-        .config-section input {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 16px;
-            transition: border-color 0.3s ease;
-        }
-
-        .config-section input:focus {
-            border-color: #007bff;
-            outline: none;
-        }
-
-        .config-section button {
-            width: 100%;
-            padding: 12px;
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .config-section button:hover {
-            background-color: #0056b3;
-        }
-
-        /* টাইমার এবং অন্যান্য স্টাইল */
-        #timer {
-            font-size: 24px;
-            font-weight: bold;
-            text-align: center;
-            margin-bottom: 20px;
-            display: none;
-        }
-
-        #result {
-            margin-bottom: 20px;
-        }
-
         .toggle-button {
             font-size: 18px;
             cursor: pointer;
@@ -111,9 +27,9 @@
         }
 
         .image-container {
-            width: 85vw;
-            max-height: 0;
-            overflow: auto;
+            width: 85vw; /* Fixed width */
+            max-height: 0; /* Initially hidden */
+            overflow: auto; /* Enable scrolling */
             border: 2px solid #333;
             background-color: #fff;
             transition: max-height 0.6s ease-in-out, visibility 0.3s ease-in-out;
@@ -121,13 +37,28 @@
         }
 
         .image-container.open {
-            max-height: 40vh;
+            max-height: 40vh; /* Expand to full height */
             visibility: visible;
         }
 
         img {
-            width: 200%;
+            width: 200%; /* Large image */
             height: 200%;
+        }
+
+        .config-section {
+            margin-bottom: 20px;
+        }
+
+        .config-section label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .config-section input {
+            width: 100%;
+            padding: 5px;
+            margin-bottom: 10px;
         }
     </style>
     <script>
@@ -146,9 +77,7 @@
 </head>
 <body>
     <div class="container">
-        <!-- কনফিগারেশন সেকশন -->
         <div class="config-section">
-            <h2>Exam Configuration</h2>
             <label for="totalQuestions">Total Questions:</label>
             <input type="number" id="totalQuestions" placeholder="Enter total number of questions">
 
@@ -161,34 +90,27 @@
             <label for="timeLeft">Time Left (in seconds):</label>
             <input type="number" id="timeLeft" placeholder="Enter time in seconds">
 
-            <button id="startExamButton">Start Exam</button>
+            <button id="startExamButton" class="toggle-button">Start Exam</button>
         </div>
 
-        <!-- টাইমার -->
         <div id="timer" style="display:none;">Time Left: <span id="time">60:00</span></div>
-
-        <!-- রেজাল্ট -->
         <div id="result" style="margin-bottom:10px;"></div>
 
-        <!-- প্রশ্ন পেপার টগল বাটন -->
         <button id="toggleButton" class="toggle-button" onclick="toggleBox()" style="display:none;">Show Question Paper</button>
 
-        <!-- ইমেজ আপলোড সেকশন -->
+        <!-- Image Upload Section -->
         <input type="file" id="imageUpload" accept="image/*" multiple style="display:none;">
         <button id="lockButton" class="toggle-button" style="display:none;">Lock Images</button>
 
-        <!-- ইমেজ কন্টেইনার -->
+        <!-- Image Container -->
         <div id="imageBox" class="image-container">
             <div id="imagePreview"></div>
         </div>
 
-        <!-- উত্তর শীট -->
         <div id="answer-sheet"></div>
-
-        <!-- সাবমিট বাটন -->
         <button id="submit-btn" style="display:none;">Submit</button>
 
-        <!-- সঠিক উত্তর ইনপুট বক্স -->
+        <!-- Answer Input Box (OMR Correction এর জন্য) -->
         <div id="answer-section" style="display:none; margin-top: 15px;">
             <div class="answer-box">
                 <h3>Enter Correct Answers</h3>
