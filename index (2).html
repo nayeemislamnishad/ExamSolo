@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exam Sheet</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .toggle-button {
+            font-size: 18px;
+            cursor: pointer;
+            margin-bottom: 10px;
+            background: none;
+            border: none;
+            color: blue;
+           text-decoration: none;
+            transition: color 0.3s ease-in-out;
+             border: 2px solid red;
+    border-radius: 10px;
+    background: #ffdddd;
+    color: red;
+    padding: 4px 10px;
+        }
+
+
+
+
+
+
+        
+        .toggle-button:hover {
+            color: darkblue;
+        }
+        
+        .image-container {
+            width: 85vw; /* Fixed width */
+            max-height: 0; /* Initially hidden */
+            overflow: auto; /* Enable scrolling */
+            border: 2px solid #333;
+            background-color: #fff;
+            transition: max-height 0.6s ease-in-out, visibility 0.3s ease-in-out;
+            visibility: hidden;
+        }
+        
+        .image-container.open {
+            max-height: 40vh; /* Expand to full height */
+            visibility: visible;
+        }
+
+        img {
+            width: 200%; /* Large image */
+            height: 200%;
+        }
+    </style>
+    <script>
+        function toggleBox() {
+            var box = document.getElementById("imageBox");
+            var button = document.getElementById("toggleButton");
+            if (box.classList.contains("open")) {
+                box.classList.remove("open");
+                button.innerText = "Show Question Paper";
+            } else {
+                box.classList.add("open");
+                button.innerText = "Hide Question Paper";
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+    
+        <div id="timer">Time Left: <span id="time">60:00</span></div>
+        <div id="result" style="margin-bottom:10px;"></div>
+        
+    
+        
+
+        <button id="toggleButton" class="toggle-button" onclick="toggleBox()">Show Question Paper</button>
+
+<!-- Image Upload Section -->
+<input type="file" id="imageUpload" accept="image/*" multiple>
+<button id="lockButton" class="toggle-button">Lock Images</button>
+
+<!-- Image Container -->
+<div id="imageBox" class="image-container">
+    <div id="imagePreview"></div>
+</div>
+        
+        
+        <div id="answer-sheet"></div>
+        <button id="submit-btn">Submit</button>
+        <!-- Answer Input Box -->
+<!-- Answer Input Box (OMR Correction এর জন্য) -->
+<div id="answer-section" style="display:none; margin-top: 15px;">
+    <div class="answer-box">
+        <h3>Enter Correct Answers</h3>
+        <input type="text" id="userAnswers" placeholder="Enter like: accaddcabdc...">
+        <button id="initialize-btn" class="toggle-button">Initialize</button>
+    </div>
+</div>
+
+    </div>
+    <script src="scriptmaster.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
+
