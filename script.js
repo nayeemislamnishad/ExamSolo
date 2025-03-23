@@ -13,7 +13,7 @@ document.getElementById("startExamButton").addEventListener("click", function ()
         return;
     }
 
-    document.getElementById("config-section").style.display = "none";
+    document.querySelector(".config-section").style.display = "none";
     document.getElementById("timer").style.display = "block";
     document.getElementById("toggleButton").style.display = "block";
     document.getElementById("imageUpload").style.display = "block";
