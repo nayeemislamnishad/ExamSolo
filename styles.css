@@ -49,8 +49,8 @@ body {
 
 .circle {
     display: inline-block;
-    width: 21px;
-    height: 21px;
+    width: 23px;
+    height: 23px;
     border: 1px solid red;
     border-radius: 50%;
     text-align: center;
