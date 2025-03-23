@@ -77,12 +77,10 @@ function initializeExam() {
 
             if (qNumIndex < 0 || qNumIndex >= totalQuestions) return;
 
-            if (answered.has(qNumIndex)) return;
-
             const ans = this.getAttribute("data-ans");
-            userAnswers[qNumIndex] = ans;
-            answered.add(qNumIndex);
+            userAnswers[qNumIndex] = ans; // ইউজারের উত্তর আপডেট করা
 
+            // UI তে সিলেক্ট করা উত্তর হাইলাইট করা
             this.parentElement.querySelectorAll(".circle").forEach(c => c.classList.remove("selected"));
             this.classList.add("selected");
             this.style.background = "black";
@@ -121,6 +119,7 @@ document.getElementById("submit-btn").addEventListener("click", function (event)
     clearInterval(timer);
     document.getElementById("timer").innerText = "Exam Finished!";
 
+    // Submit করার পর অপশন সিলেক্ট বন্ধ করা
     document.querySelectorAll(".circle").forEach(circle => {
         circle.style.pointerEvents = "none";
     });
