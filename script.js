@@ -1,4 +1,3 @@
-এটা আমার full script.js . এমনভাবে change কর যেন user  যেকোনো option re select করতে পারে শুধুমাত্র time up এর আগে or submit এর আগে। 
 
 let totalQuestions, columns, timeLeft, startQuestionNumber;
 let userAnswers, answered, startTime;
