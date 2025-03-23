@@ -1,4 +1,3 @@
-
 let totalQuestions, columns, timeLeft, startQuestionNumber;
 let userAnswers, answered, startTime;
 let timer;
