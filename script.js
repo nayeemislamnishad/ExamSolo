@@ -13,7 +13,7 @@ function startExam() {
     initializeExam();
 }
 
-const questionsPerColumn = totalQuestions / columns;
+const questionsPerColumn = Math.ceil(totalQuestions / columns);
 const container = document.getElementById("answer-sheet");
 const tableContainer = document.createElement("div");
 tableContainer.classList.add("table-container");
