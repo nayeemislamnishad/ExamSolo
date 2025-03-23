@@ -49,13 +49,13 @@ body {
 
 .circle {
     display: inline-block;
-    width: 24px;
-    height: 24px;
+    width: 26px;
+    height: 26px;
     border: 1px solid red;
     border-radius: 50%;
     text-align: center;
-    line-height: 21px;
-    margin: 0 1px;
+    line-height: 26px;
+    margin: 0 2px;
     cursor: pointer;
     padding: 0px;
 }
