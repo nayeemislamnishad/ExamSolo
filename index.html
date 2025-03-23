@@ -13,25 +13,19 @@
             background: none;
             border: none;
             color: blue;
-           text-decoration: none;
+            text-decoration: none;
             transition: color 0.3s ease-in-out;
-             border: 2px solid red;
-    border-radius: 10px;
-    background: #ffdddd;
-    color: red;
-    padding: 4px 10px;
+            border: 2px solid red;
+            border-radius: 10px;
+            background: #ffdddd;
+            color: red;
+            padding: 4px 10px;
         }
 
-
-
-
-
-
-        
         .toggle-button:hover {
             color: darkblue;
         }
-        
+
         .image-container {
             width: 85vw; /* Fixed width */
             max-height: 0; /* Initially hidden */
@@ -41,7 +35,7 @@
             transition: max-height 0.6s ease-in-out, visibility 0.3s ease-in-out;
             visibility: hidden;
         }
-        
+
         .image-container.open {
             max-height: 40vh; /* Expand to full height */
             visibility: visible;
@@ -50,6 +44,21 @@
         img {
             width: 200%; /* Large image */
             height: 200%;
+        }
+
+        .config-section {
+            margin-bottom: 20px;
+        }
+
+        .config-section label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .config-section input {
+            width: 100%;
+            padding: 5px;
+            margin-bottom: 10px;
         }
     </style>
     <script>
@@ -68,40 +77,48 @@
 </head>
 <body>
     <div class="container">
-    
-        <div id="timer">Time Left: <span id="time">60:00</span></div>
+        <div class="config-section">
+            <label for="totalQuestions">Total Questions:</label>
+            <input type="number" id="totalQuestions" placeholder="Enter total number of questions">
+
+            <label for="columns">Columns:</label>
+            <input type="number" id="columns" placeholder="Enter number of columns">
+
+            <label for="startQuestionNumber">Starting Question Number:</label>
+            <input type="number" id="startQuestionNumber" placeholder="Enter starting question number">
+
+            <label for="timeLeft">Time Left (in seconds):</label>
+            <input type="number" id="timeLeft" placeholder="Enter time in seconds">
+
+            <button id="startExamButton" class="toggle-button">Start Exam</button>
+        </div>
+
+        <div id="timer" style="display:none;">Time Left: <span id="time">60:00</span></div>
         <div id="result" style="margin-bottom:10px;"></div>
-        
-    
-        
 
-        <button id="toggleButton" class="toggle-button" onclick="toggleBox()">Show Question Paper</button>
+        <button id="toggleButton" class="toggle-button" onclick="toggleBox()" style="display:none;">Show Question Paper</button>
 
-<!-- Image Upload Section -->
-<input type="file" id="imageUpload" accept="image/*" multiple>
-<button id="lockButton" class="toggle-button">Lock Images</button>
+        <!-- Image Upload Section -->
+        <input type="file" id="imageUpload" accept="image/*" multiple style="display:none;">
+        <button id="lockButton" class="toggle-button" style="display:none;">Lock Images</button>
 
-<!-- Image Container -->
-<div id="imageBox" class="image-container">
-    <div id="imagePreview"></div>
-</div>
-        
-        
+        <!-- Image Container -->
+        <div id="imageBox" class="image-container">
+            <div id="imagePreview"></div>
+        </div>
+
         <div id="answer-sheet"></div>
-        <button id="submit-btn">Submit</button>
-        <!-- Answer Input Box -->
-<!-- Answer Input Box (OMR Correction এর জন্য) -->
-<div id="answer-section" style="display:none; margin-top: 15px;">
-    <div class="answer-box">
-        <h3>Enter Correct Answers</h3>
-        <input type="text" id="userAnswers" placeholder="Enter like: accaddcabdc...">
-        <button id="initialize-btn" class="toggle-button">Initialize</button>
-    </div>
-</div>
+        <button id="submit-btn" style="display:none;">Submit</button>
 
+        <!-- Answer Input Box (OMR Correction এর জন্য) -->
+        <div id="answer-section" style="display:none; margin-top: 15px;">
+            <div class="answer-box">
+                <h3>Enter Correct Answers</h3>
+                <input type="text" id="userAnswers" placeholder="Enter like: accaddcabdc...">
+                <button id="initialize-btn" class="toggle-button">Initialize</button>
+            </div>
+        </div>
     </div>
-    <script src="scriptmaster.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
-
