@@ -1,3 +1,17 @@
+// ডিফল্ট ভ্যালু (ইউজার পরবর্তীতে চেঞ্জ করবে)
+let totalQuestions = 100;
+let startQuestionNumber = 1;
+let timeLeft = 3600; // ৬০ মিনিট (সেকেন্ডে)
+
+function startExam() {
+    // ইউজারের ইনপুট নেওয়া
+    timeLeft = parseInt(document.getElementById("examTime").value) * 60; // সেকেন্ডে রূপান্তর
+    totalQuestions = parseInt(document.getElementById("totalQuestions").value);
+    startQuestionNumber = parseInt(document.getElementById("startQuestion").value);
+
+    // এক্সাম শুরু করো
+    initializeExam();
+}
 
 const questionsPerColumn = totalQuestions / columns;
 const container = document.getElementById("answer-sheet");
