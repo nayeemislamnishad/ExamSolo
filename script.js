@@ -98,7 +98,8 @@ function initializeExam() {
 
     function updateTimer() {
         let minutes = Math.floor(timeLeft / 60);
-        let seconds = timeLeft % 60;
+        let minutes = timeLeft;
+        let seconds = (timeLeft*60) % 60;
         timerElement.innerText = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
         timeLeft--;
 
