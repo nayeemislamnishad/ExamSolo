@@ -4,7 +4,7 @@ let timer;
 
 document.getElementById("startExamButton").addEventListener("click", function () {
     totalQuestions = parseInt(document.getElementById("totalQuestions").value);
-    timeLeft = parseInt(document.getElementById("timeLeft").value);
+    timeLeft = parseInt(document.getElementById("timeLeft").value) * 60;
     startQuestionNumber = parseInt(document.getElementById("startQuestionNumber").value);
 
     // কলাম সংখ্যা ১ এ ফিক্সড
